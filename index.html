@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demande Club Testeur</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+        .row { display: flex; gap: 10px; margin-bottom: 10px; }
+        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 15px; background-color: #78be20; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background-color: #65a11b; }
+        .form-group { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <h2>Nouvelle Demande Club Testeur</h2>
+    
+    <div class="form-group">
+        <label>Votre Email :</label><br>
+        <input type="email" id="email" required style="width: 100%;">
+    </div>
+    <div class="form-group">
+        <label>Nom du demandeur :</label><br>
+        <input type="text" id="demandeur" required style="width: 100%;">
+    </div>
+    <div class="form-group">
+        <label>Marque commerciale :</label><br>
+        <input type="text" id="marque" required style="width: 100%;">
+    </div>
+    <div class="form-group">
+        <label>Famille de produit :</label><br>
+        <input type="text" id="famille" required style="width: 100%;">
+    </div>
+
+    <h3>Produits à tester</h3>
+    <div id="produits-container">
+        <div class="row">
+            <input type="text" class="ean" placeholder="Code EAN (13 chiffres)" required>
+            <input type="number" class="qty" placeholder="Quantité" required min="1">
+        </div>
+    </div>
+    
+    <button type="button" onclick="ajouterLigne()" style="background-color: #ccc; color: black; margin-bottom: 20px;">+ Ajouter un autre EAN</button><br>
+
+    <button type="button" onclick="envoyerDonnees()">Envoyer la demande</button>
+    <p id="message-succes" style="color: green; display: none;">✅ Demande envoyée avec succès !</p>
+
+    <script>
+        // ⚠️ Remplacer par l'URL de votre webhook Make :
+        const WEBHOOK_URL = "https://hook.eu1.make.com/ompmicexyvbw6k2cdunw0gydays2g54u";
+
+        function ajouterLigne() {
+            const container = document.getElementById('produits-container');
+            const div = document.createElement('div');
+            div.className = 'row';
+            div.innerHTML = `
+                <input type="text" class="ean" placeholder="Code EAN (13 chiffres)" required>
+                <input type="number" class="qty" placeholder="Quantité" required min="1">
+            `;
+            container.appendChild(div);
+        }
+
+        function envoyerDonnees() {
+            const email = document.getElementById('email').value;
+            const demandeur = document.getElementById('demandeur').value;
+            const marque = document.getElementById('marque').value;
+            const famille = document.getElementById('famille').value;
+            
+            const eans = document.getElementsByClassName('ean');
+            const qtys = document.getElementsByClassName('qty');
+            
+            let listeCombinee = [];
+            for(let i = 0; i < eans.length; i++) {
+                if(eans[i].value !== "" && qtys[i].value !== "") {
+                    listeCombinee.push(eans[i].value.trim() + ":" + qtys[i].value.trim());
+                }
+            }
+
+            const payload = {
+                email: email,
+                demandeur: demandeur,
+                marque: marque,
+                famille: famille,
+                eans_concat: listeCombinee.join(",")
+            };
+
+            fetch(WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(response => {
+                document.getElementById('message-succes').style.display = 'block';
+            }).catch(error => alert("Erreur d'envoi."));
+        }
+    </script>
+</body>
+</html>
