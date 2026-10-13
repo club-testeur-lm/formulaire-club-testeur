@@ -188,7 +188,7 @@
             box-shadow: 0 6px 12px rgba(120, 190, 32, 0.2);
         }
 
-        /* --- NOUVEAU DESIGN DU MESSAGE DE SUCCÈS --- */
+        /* Message de succès et bouton reset */
         #message-succes {
             display: none;
             background-color: #ffffff;
@@ -198,7 +198,6 @@
             margin-top: 20px;
             border: 2px solid #e5e7eb;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            /* Animation d'apparition globale */
             animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
@@ -207,7 +206,6 @@
             height: 60px;
             color: var(--lm-green);
             margin: 0 auto 15px auto;
-            /* Animation de l'icône SVG */
             animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
         }
 
@@ -221,9 +219,25 @@
         .success-text {
             color: var(--text-light);
             font-size: 16px;
+            margin-bottom: 25px;
         }
 
-        /* Définition des animations */
+        .btn-reset {
+            background-color: white;
+            color: var(--lm-green);
+            border: 2px solid var(--lm-green);
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: rgba(120, 190, 32, 0.05);
+        }
+
         @keyframes slideUpFade {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -287,10 +301,8 @@
             
             <button type="button" class="btn-add" onclick="ajouterLigne()">+ Ajouter un produit</button>
 
-            <!-- Bouton renommé -->
             <button type="button" class="btn-submit" id="btn-submit" onclick="envoyerDonnees()">Envoyer demande de club testeur</button>
             
-            <!-- Nouvelle carte de succès animée -->
             <div id="message-succes">
                 <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -298,6 +310,9 @@
                 </svg>
                 <div class="success-title">Demande envoyée avec succès !</div>
                 <div class="success-text">Votre liste de produits a bien été transmise à l'équipe du Club Testeur.</div>
+                
+                <!-- Nouveau bouton pour faire une autre demande -->
+                <button type="button" class="btn-reset" onclick="reinitialiserFormulaire()">Envoyer une autre demande</button>
             </div>
         </div>
 
@@ -367,9 +382,7 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             }).then(response => {
-                // Masquer le bouton d'envoi
                 btnSubmit.style.display = "none";
-                // Afficher la carte de succès animée
                 document.getElementById('message-succes').style.display = 'block';
             }).catch(error => {
                 alert("Erreur lors de l'envoi de la demande. Veuillez réessayer.");
@@ -377,6 +390,36 @@
                 btnSubmit.style.opacity = "1";
                 btnSubmit.style.pointerEvents = "auto";
             });
+        }
+
+        // Nouvelle fonction pour réinitialiser le formulaire intelligemment
+        function reinitialiserFormulaire() {
+            // On vide la date
+            document.getElementById('date_dispo').value = '';
+            
+            // On réinitialise la zone des EANs avec une seule ligne vide
+            const container = document.getElementById('produits-container');
+            container.innerHTML = `
+                <div class="product-row">
+                    <div class="input-wrapper">
+                        <input type="text" class="ean" placeholder="Code EAN (13 chiffres)" required>
+                    </div>
+                    <div class="input-qty">
+                        <input type="number" class="qty" placeholder="Quantité" required min="1">
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+            `;
+
+            // On cache le message de succès
+            document.getElementById('message-succes').style.display = 'none';
+            
+            // On réaffiche le bouton d'envoi principal
+            const btnSubmit = document.getElementById('btn-submit');
+            btnSubmit.style.display = "block";
+            btnSubmit.innerText = "Envoyer demande de club testeur";
+            btnSubmit.style.opacity = "1";
+            btnSubmit.style.pointerEvents = "auto";
         }
     </script>
 </body>
