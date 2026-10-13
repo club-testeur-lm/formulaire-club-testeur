@@ -178,25 +178,60 @@
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
             width: 100%;
             display: block;
         }
         .btn-submit:hover {
             background-color: var(--lm-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(120, 190, 32, 0.2);
         }
 
+        /* --- NOUVEAU DESIGN DU MESSAGE DE SUCCÈS --- */
         #message-succes {
-            background-color: #def7ec;
-            color: #03543f;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            margin-top: 25px;
             display: none;
-            border: 1px solid #bcdecb;
+            background-color: #ffffff;
+            padding: 40px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            /* Animation d'apparition globale */
+            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            color: var(--lm-green);
+            margin: 0 auto 15px auto;
+            /* Animation de l'icône SVG */
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+        }
+
+        .success-title {
+            color: var(--text-dark);
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .success-text {
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        /* Définition des animations */
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
@@ -252,10 +287,17 @@
             
             <button type="button" class="btn-add" onclick="ajouterLigne()">+ Ajouter un produit</button>
 
-            <button type="button" class="btn-submit" onclick="envoyerDonnees()">Envoyer ma demande de test</button>
+            <!-- Bouton renommé -->
+            <button type="button" class="btn-submit" id="btn-submit" onclick="envoyerDonnees()">Envoyer demande de club testeur</button>
             
+            <!-- Nouvelle carte de succès animée -->
             <div id="message-succes">
-                ✅ Votre demande a bien été envoyée à l'équipe du Club Testeur !
+                <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <div class="success-title">Demande envoyée avec succès !</div>
+                <div class="success-text">Votre liste de produits a bien été transmise à l'équipe du Club Testeur.</div>
             </div>
         </div>
 
@@ -290,7 +332,6 @@
                 return;
             }
 
-            // Formater la date YYYY-MM-DD en DD/MM/YYYY pour Google Sheets
             const parts = dateDispoRaw.split('-');
             const dateDispo = `${parts[2]}/${parts[1]}/${parts[0]}`;
 
@@ -316,22 +357,25 @@
                 eans_concat: listeCombinee.join(",")
             };
 
-            const btnSubmit = document.querySelector('.btn-submit');
+            const btnSubmit = document.getElementById('btn-submit');
             btnSubmit.innerText = "Envoi en cours...";
             btnSubmit.style.opacity = "0.7";
+            btnSubmit.style.pointerEvents = "none";
 
             fetch(WEBHOOK_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             }).then(response => {
+                // Masquer le bouton d'envoi
+                btnSubmit.style.display = "none";
+                // Afficher la carte de succès animée
                 document.getElementById('message-succes').style.display = 'block';
-                btnSubmit.innerText = "Envoyer ma demande de test";
-                btnSubmit.style.opacity = "1";
             }).catch(error => {
                 alert("Erreur lors de l'envoi de la demande. Veuillez réessayer.");
-                btnSubmit.innerText = "Envoyer ma demande de test";
+                btnSubmit.innerText = "Envoyer demande de club testeur";
                 btnSubmit.style.opacity = "1";
+                btnSubmit.style.pointerEvents = "auto";
             });
         }
     </script>
