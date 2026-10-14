@@ -55,31 +55,35 @@
         /* ----- LANGUAGE SWITCHER ----- */
         .lang-switch {
             display: flex;
-            background: var(--bg-body);
+            background: #f4f5f7;
             border-radius: 20px;
             padding: 4px;
-            border: 1px solid var(--border-color);
+            border: 1px solid #e0e0e0;
         }
         .lang-btn {
             background: transparent;
             border: none;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 16px;
-            font-size: 13px;
-            font-weight: bold;
-            color: var(--text-light);
+            font-size: 14px;
+            color: #666;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+        }
+        .lang-btn .country-code {
+            font-weight: bold;
         }
         .lang-btn.active {
             background: #ffffff;
             color: var(--lm-green);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        .flag { font-size: 16px; }
+        .lang-btn.active .country-code {
+            color: #a4c735; /* Vert légèrement plus clair pour le code pays */
+        }
 
         .container {
             max-width: 900px;
@@ -98,7 +102,7 @@
             flex-direction: column;
         }
         @media (min-width: 768px) {
-            .intro-card { flex-direction: row; }
+            .intro-card { flex-direction: row; align-items: stretch; }
         }
         .intro-image-container {
             width: 100%;
@@ -106,7 +110,7 @@
             position: relative;
         }
         @media (min-width: 768px) {
-            .intro-image-container { width: 40%; height: auto; min-height: 100%; }
+            .intro-image-container { width: 35%; height: auto; }
         }
         .intro-image {
             width: 100%;
@@ -413,8 +417,12 @@
         <div class="header-content">
             <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Leroy_Merlin_-_logo_%28France%2C_1995-%29.svg/1280px-Leroy_Merlin_-_logo_%28France%2C_1995-%29.svg.png" alt="Logo Leroy Merlin">
             <div class="lang-switch">
-                <button class="lang-btn active" onclick="changeLanguage('fr')" id="btn-fr"><span class="flag">🇫🇷</span> FR</button>
-                <button class="lang-btn" onclick="changeLanguage('en')" id="btn-en"><span class="flag">🇬🇧</span> EN</button>
+                <button class="lang-btn active" onclick="changeLanguage('fr')" id="btn-fr">
+                    <span class="country-code">FR</span> <strong>FR</strong>
+                </button>
+                <button class="lang-btn" onclick="changeLanguage('en')" id="btn-en">
+                    <span class="country-code">GB</span> <strong>EN</strong>
+                </button>
             </div>
         </div>
     </div>
@@ -431,19 +439,9 @@
                 
                 <p class="description" data-i18n="subtitle">Le Club des Testeurs accélère la génération d'avis riches (verbatims, photos, vidéos) pour maximiser la visibilité sur les moteurs de recherche (SEO/GEO) et déclencher la mise au panier.</p>
                 
-                <div class="info-block">
+                <div class="info-block" style="margin-bottom: 20px;">
                     <strong data-i18n="impact_title">📈 Impact sur vos ventes</strong>
                     <span data-i18n="impact_text">Atteindre le cap des 10 avis fait bondir le taux de conversion (ajout au panier) de <span class="highlight">+39 % en moyenne</span>. <span class="highlight">+25%</span> à partir de 5 avis (pour un produit ayant une note moyenne ≥4★).</span>
-                </div>
-
-                <div class="info-block warning">
-                    <strong data-i18n="prereq_title">⚠️ Prérequis</strong>
-                    <span data-i18n="prereq_text">La page web de votre produit doit déjà être active au commerce (visible par les clients) et afficher moins de 10 avis.</span>
-                </div>
-
-                <div class="info-block advice">
-                    <strong data-i18n="advice_title">💡 Notre conseil</strong>
-                    <span data-i18n="advice_text">Prévoyez <strong>10 échantillons par référence</strong> pour sécuriser le palier de conversion maximal (6 échantillons minimum pour s’assurer d’atteindre le 1er palier à +25%).</span>
                 </div>
 
                 <div class="community-stats">
@@ -474,8 +472,20 @@
                 <input type="date" id="date_dispo" required>
             </div>
 
-            <h3 class="section-title" style="margin-top: 40px;" data-i18n="form_title2">Produits à tester</h3>
+            <h3 class="section-title" style="margin-top: 40px; margin-bottom: 15px;" data-i18n="form_title2">Produits à tester</h3>
             
+            <!-- AVERTISSEMENTS DÉPLACÉS JUSTE AU DESSUS DES PRODUITS -->
+            <div class="info-block warning" style="margin-bottom: 10px;">
+                <strong data-i18n="prereq_title">⚠️ Prérequis</strong>
+                <span data-i18n="prereq_text">La page web de votre produit doit déjà être active au commerce (visible par les clients) et afficher moins de 10 avis.</span>
+            </div>
+
+            <div class="info-block advice" style="margin-bottom: 25px;">
+                <strong data-i18n="advice_title">💡 Conseil pour la quantité</strong>
+                <span data-i18n="advice_text">Prévoyez <strong>10 échantillons par référence</strong> pour sécuriser le palier de conversion maximal (6 échantillons minimum pour s’assurer d’atteindre le 1er palier à +25%).</span>
+            </div>
+            <!-- FIN AVERTISSEMENTS -->
+
             <div id="produits-container">
                 <div class="product-row">
                     <div class="input-wrapper">
@@ -493,7 +503,7 @@
                 <span data-i18n="btn_add">Ajouter un autre produit</span>
             </button>
 
-            <!-- NOUVELLE SECTION: ET ENSUITE ? -->
+            <!-- SECTION: ET ENSUITE ? -->
             <div class="next-steps-card">
                 <h3>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
@@ -539,7 +549,7 @@
                 impact_text: "Atteindre le cap des 10 avis fait bondir le taux de conversion (ajout au panier) de <span class='highlight'>+39 % en moyenne</span>. <span class='highlight'>+25%</span> à partir de 5 avis (pour un produit ayant une note moyenne ≥4★).",
                 prereq_title: "⚠️ Prérequis",
                 prereq_text: "La page web de votre produit doit déjà être active au commerce (visible par les clients) et afficher moins de 10 avis.",
-                advice_title: "💡 Notre conseil",
+                advice_title: "💡 Conseil pour la quantité",
                 advice_text: "Prévoyez <strong>10 échantillons par référence</strong> pour sécuriser le palier de conversion maximal (6 échantillons minimum pour s’assurer d’atteindre le 1er palier à +25%).",
                 stats_text: "Grâce à notre communauté de plus de <strong>17 000 habitants testeurs</strong>, le premier avis est publié, en moyenne, <strong>45 jours</strong> après la réception de vos échantillons chez FANDI. Le taux de réponse est de <strong>93%</strong> (avis/échantillons).",
                 form_title1: "Vos informations",
@@ -571,7 +581,7 @@
                 impact_text: "Reaching the 10-review milestone boosts the add-to-cart conversion rate by <span class='highlight'>+39% on average</span>. <span class='highlight'>+25%</span> starting from 5 reviews (for a product with an average rating ≥4★).",
                 prereq_title: "⚠️ Prerequisites",
                 prereq_text: "Your product webpage must already be active for commerce (visible to customers) and display fewer than 10 reviews.",
-                advice_title: "💡 Our advice",
+                advice_title: "💡 Quantity advice",
                 advice_text: "Plan for <strong>10 samples per reference</strong> to secure the maximum conversion tier (6 samples minimum to ensure reaching the first tier at +25%).",
                 stats_text: "Thanks to our community of over <strong>17,000 tester inhabitants</strong>, the first review is published, on average, <strong>45 days</strong> after FANDI receives your samples. The response rate is <strong>93%</strong> (reviews/samples).",
                 form_title1: "Your Information",
@@ -671,7 +681,6 @@
                 return;
             }
 
-            // EXACTEMENT LE MÊME PAYLOAD QU'AVANT POUR NE PAS CASSER MAKE.COM
             const payload = {
                 email: email,
                 demandeur: demandeur,
@@ -682,7 +691,6 @@
             const btnSubmit = document.getElementById('btn-submit');
             const originalBtnContent = btnSubmit.innerHTML;
             
-            // Mise à jour visuelle du bouton pendant l'envoi
             btnSubmit.innerHTML = `<span>${translations[currentLang].sending}</span>`;
             btnSubmit.style.opacity = "0.7";
             btnSubmit.style.pointerEvents = "none";
@@ -724,7 +732,6 @@
             const btnSubmit = document.getElementById('btn-submit');
             btnSubmit.style.display = "flex";
             
-            // On s'assure que le bouton reprend la bonne langue après réinitialisation
             btnSubmit.innerHTML = `
                 <span data-i18n="btn_submit">${translations[currentLang].btn_submit}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
