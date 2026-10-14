@@ -71,18 +71,16 @@
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
-        .lang-btn .country-code {
-            font-weight: bold;
+        .lang-btn .flag {
+            font-size: 16px;
+            line-height: 1;
         }
         .lang-btn.active {
             background: #ffffff;
             color: var(--lm-green);
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .lang-btn.active .country-code {
-            color: #a4c735; /* Vert légèrement plus clair pour le code pays */
         }
 
         .container {
@@ -418,10 +416,10 @@
             <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Leroy_Merlin_-_logo_%28France%2C_1995-%29.svg/1280px-Leroy_Merlin_-_logo_%28France%2C_1995-%29.svg.png" alt="Logo Leroy Merlin">
             <div class="lang-switch">
                 <button class="lang-btn active" onclick="changeLanguage('fr')" id="btn-fr">
-                    <span class="country-code">FR</span> <strong>FR</strong>
+                    <span class="flag">🇫🇷</span> <strong>FR</strong>
                 </button>
                 <button class="lang-btn" onclick="changeLanguage('en')" id="btn-en">
-                    <span class="country-code">GB</span> <strong>EN</strong>
+                    <span class="flag">🇬🇧</span> <strong>EN</strong>
                 </button>
             </div>
         </div>
