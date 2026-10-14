@@ -8,10 +8,13 @@
         :root {
             --lm-green: #78be20;
             --lm-green-hover: #65a11b;
-            --text-dark: #333333;
-            --text-light: #666666;
+            --lm-green-light: #f1f9e9;
+            --text-dark: #2c3238;
+            --text-light: #525a61;
             --bg-body: #f4f5f7;
-            --border-color: #e0e0e0;
+            --border-color: #d1d5db;
+            --warning-bg: #fffbe3;
+            --warning-border: #fce87a;
         }
 
         body {
@@ -21,47 +24,98 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
         .header {
             background-color: #ffffff;
-            padding: 20px 0;
-            text-align: center;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             margin-bottom: 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .header img {
-            height: 50px;
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
         }
 
+        .header img {
+            height: 45px;
+        }
+
+        /* ----- LANGUAGE SWITCHER ----- */
+        .lang-switch {
+            display: flex;
+            background: var(--bg-body);
+            border-radius: 20px;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+        }
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .lang-btn.active {
+            background: #ffffff;
+            color: var(--lm-green);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .flag { font-size: 16px; }
+
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto 50px;
             padding: 0 20px;
         }
 
+        /* ----- INTRO CARD ----- */
         .intro-card {
             background: #ffffff;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             margin-bottom: 30px;
             display: flex;
             flex-direction: column;
         }
-        @media (min-width: 600px) {
+        @media (min-width: 768px) {
             .intro-card { flex-direction: row; }
+        }
+        .intro-image-container {
+            width: 100%;
+            height: 250px;
+            position: relative;
+        }
+        @media (min-width: 768px) {
+            .intro-image-container { width: 40%; height: auto; min-height: 100%; }
         }
         .intro-image {
             width: 100%;
-            height: 250px;
+            height: 100%;
             object-fit: cover;
         }
-        @media (min-width: 600px) {
-            .intro-image { width: 45%; height: auto; }
-        }
+        
         .intro-text {
-            padding: 40px 30px;
+            padding: 35px;
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -70,23 +124,70 @@
         .intro-text h1 {
             color: var(--lm-green);
             margin: 0 0 15px 0;
-            font-size: 26px;
+            font-size: 24px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
         }
-        .intro-text h2 {
-            font-size: 18px;
-            margin: 0 0 10px 0;
-        }
-        .intro-text p {
+        .intro-text .description {
             color: var(--text-light);
-            margin: 0;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        
+        /* Blocs d'informations */
+        .info-block {
+            background: #f8fafc;
+            border-left: 4px solid var(--lm-green);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 15px;
+            font-size: 14.5px;
+        }
+        .info-block.warning {
+            background: var(--warning-bg);
+            border-left-color: #f5c518;
+        }
+        .info-block.advice {
+            background: var(--lm-green-light);
+            border-left-color: var(--lm-green);
+        }
+        .info-block strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--text-dark);
             font-size: 15px;
         }
+        .info-block.warning strong { color: #856404; }
+        .info-block.advice strong { color: #2d5a1e; }
+        
+        .community-stats {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .community-stats svg {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            color: var(--lm-green);
+            margin-top: 2px;
+        }
+        
+        .highlight {
+            color: var(--lm-green);
+            font-weight: bold;
+        }
 
+        /* ----- FORM CARD ----- */
         .form-card {
             background: #ffffff;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         }
         .section-title {
             font-size: 20px;
@@ -94,6 +195,7 @@
             margin-bottom: 25px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--bg-body);
+            color: var(--text-dark);
         }
         .form-group {
             margin-bottom: 25px;
@@ -115,13 +217,14 @@
             font-size: 15px;
             box-sizing: border-box;
             transition: all 0.3s ease;
-            background-color: #fcfcfc;
+            background-color: #f9fafb;
+            color: var(--text-dark);
         }
         input:focus {
             outline: none;
             border-color: var(--lm-green);
             background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(120, 190, 32, 0.15);
+            box-shadow: 0 0 0 4px rgba(120, 190, 32, 0.15);
         }
 
         .product-row {
@@ -129,13 +232,15 @@
             gap: 15px;
             margin-bottom: 15px;
             align-items: center;
+            animation: slideIn 0.3s ease-out;
         }
-        .product-row .input-wrapper {
-            flex: 1;
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .product-row .input-qty {
-            width: 120px;
-        }
+        .product-row .input-wrapper { flex: 1; }
+        .product-row .input-qty { width: 120px; }
+        
         .remove-btn {
             background: none;
             border: none;
@@ -147,48 +252,108 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s;
+            transition: all 0.2s;
+            opacity: 0.6;
         }
         .remove-btn:hover {
             background: #fee2e2;
+            opacity: 1;
         }
 
         .btn-add {
-            background-color: #e5e7eb;
-            color: #374151;
-            border: none;
-            padding: 10px 20px;
+            background-color: transparent;
+            color: var(--lm-green);
+            border: 2px dashed var(--lm-green);
+            padding: 12px 20px;
             font-size: 14px;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s;
-            margin-bottom: 30px;
+            transition: all 0.3s;
+            margin-bottom: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
         }
         .btn-add:hover {
-            background-color: #d1d5db;
+            background-color: var(--lm-green-light);
         }
-        
+
+        /* ----- NEXT STEPS CARD ----- */
+        .next-steps-card {
+            background-color: var(--lm-green-light);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(120, 190, 32, 0.2);
+        }
+        .next-steps-card h3 {
+            color: #2d5a1e;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .next-steps-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .next-steps-card li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+        .next-steps-card li:last-child {
+            margin-bottom: 0;
+        }
+        .next-steps-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: var(--lm-green);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* ----- SUBMIT BUTTON ----- */
         .btn-submit {
             background-color: var(--lm-green);
             color: white;
             border: none;
-            padding: 16px 24px;
+            padding: 18px 24px;
             font-size: 18px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
         .btn-submit:hover {
             background-color: var(--lm-green-hover);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(120, 190, 32, 0.2);
+            box-shadow: 0 6px 15px rgba(120, 190, 32, 0.3);
         }
 
-        /* Message de succès et bouton reset */
+        /* ----- SUCCESS MESSAGE ----- */
         #message-succes {
             display: none;
             background-color: #ffffff;
@@ -196,11 +361,10 @@
             border-radius: 12px;
             text-align: center;
             margin-top: 20px;
-            border: 2px solid #e5e7eb;
+            border: 2px solid var(--lm-green-light);
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-
         .success-icon {
             width: 60px;
             height: 60px;
@@ -208,20 +372,17 @@
             margin: 0 auto 15px auto;
             animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
         }
-
         .success-title {
             color: var(--text-dark);
             font-size: 22px;
             font-weight: bold;
             margin-bottom: 10px;
         }
-
         .success-text {
             color: var(--text-light);
             font-size: 16px;
             margin-bottom: 25px;
         }
-
         .btn-reset {
             background-color: white;
             color: var(--lm-green);
@@ -233,86 +394,133 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
         .btn-reset:hover {
-            background-color: rgba(120, 190, 32, 0.05);
+            background-color: var(--lm-green-light);
         }
 
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
+        @media (max-width: 600px) {
+            .form-card, .intro-text { padding: 25px 20px; }
+            .product-row { flex-wrap: wrap; }
+            .product-row .input-qty { width: calc(100% - 50px); }
+            .product-row .input-wrapper { width: 100%; flex: none; }
+            .header img { height: 35px; }
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Leroy_Merlin_-_logo_%28France%2C_1995-%29.svg/1280px-Leroy_Merlin_-_logo_%28France%2C_1995-%29.svg.png" alt="Logo Leroy Merlin">
+        <div class="header-content">
+            <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Leroy_Merlin_-_logo_%28France%2C_1995-%29.svg/1280px-Leroy_Merlin_-_logo_%28France%2C_1995-%29.svg.png" alt="Logo Leroy Merlin">
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="changeLanguage('fr')" id="btn-fr"><span class="flag">🇫🇷</span> FR</button>
+                <button class="lang-btn" onclick="changeLanguage('en')" id="btn-en"><span class="flag">🇬🇧</span> EN</button>
+            </div>
+        </div>
     </div>
 
     <div class="container">
         
+        <!-- SECTION INTRO -->
         <div class="intro-card">
-            <img class="intro-image" src="https://media.adeo.com/media/3110757/media.jpeg?width=600" alt="Club des testeurs Leroy Merlin">
+            <div class="intro-image-container">
+                <img class="intro-image" src="https://media.adeo.com/media/3110757/media.jpeg?width=600" alt="Club des testeurs Leroy Merlin">
+            </div>
             <div class="intro-text">
-                <h1>Le club des testeurs</h1>
-                <h2>Qu’est-ce que c’est ?</h2>
-                <p>Le club des testeurs est une communauté de clients passionnés qui en échange de leur précieux avis peuvent tester gratuitement une grande variété de produits.<br><br>
-                Bricolage, jardinage, décoration… Tous nos univers sont concernés !</p>
+                <h1 data-i18n="title">Sécurisez la satisfaction client et boostez vos ventes avec le Club des Testeurs !</h1>
+                
+                <p class="description" data-i18n="subtitle">Le Club des Testeurs accélère la génération d'avis riches (verbatims, photos, vidéos) pour maximiser la visibilité sur les moteurs de recherche (SEO/GEO) et déclencher la mise au panier.</p>
+                
+                <div class="info-block">
+                    <strong data-i18n="impact_title">📈 Impact sur vos ventes</strong>
+                    <span data-i18n="impact_text">Atteindre le cap des 10 avis fait bondir le taux de conversion (ajout au panier) de <span class="highlight">+39 % en moyenne</span>. <span class="highlight">+25%</span> à partir de 5 avis (pour un produit ayant une note moyenne ≥4★).</span>
+                </div>
+
+                <div class="info-block warning">
+                    <strong data-i18n="prereq_title">⚠️ Prérequis</strong>
+                    <span data-i18n="prereq_text">La page web de votre produit doit déjà être active au commerce (visible par les clients) et afficher moins de 10 avis.</span>
+                </div>
+
+                <div class="info-block advice">
+                    <strong data-i18n="advice_title">💡 Notre conseil</strong>
+                    <span data-i18n="advice_text">Prévoyez <strong>10 échantillons par référence</strong> pour sécuriser le palier de conversion maximal (6 échantillons minimum pour s’assurer d’atteindre le 1er palier à +25%).</span>
+                </div>
+
+                <div class="community-stats">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span data-i18n="stats_text">Grâce à notre communauté de plus de <strong>17 000 habitants testeurs</strong>, le premier avis est publié, en moyenne, <strong>45 jours</strong> après la réception de vos échantillons chez FANDI. Le taux de réponse est de <strong>93%</strong> (avis/échantillons).</span>
+                </div>
             </div>
         </div>
 
+        <!-- FORMULAIRE -->
         <div class="form-card">
-            <h3 class="section-title">Vos informations</h3>
+            <h3 class="section-title" data-i18n="form_title1">Vos informations</h3>
             
             <div class="form-group">
-                <label>Votre adresse E-mail</label>
-                <input type="email" id="email" placeholder="exemple@email.com" required>
+                <label data-i18n="label_email">Votre adresse E-mail</label>
+                <input type="email" id="email" placeholder="exemple@email.com" data-i18n-placeholder="placeholder_email" required>
             </div>
             
             <div class="form-group">
-                <label>Nom du demandeur</label>
-                <input type="text" id="demandeur" placeholder="Saisissez votre nom et prénom" required>
+                <label data-i18n="label_name">Nom du demandeur</label>
+                <input type="text" id="demandeur" placeholder="Saisissez votre nom et prénom" data-i18n-placeholder="placeholder_name" required>
             </div>
 
             <div class="form-group">
-                <label>Date de disponibilité des échantillons</label>
+                <label data-i18n="label_date">Date de disponibilité des échantillons</label>
                 <input type="date" id="date_dispo" required>
             </div>
 
-            <h3 class="section-title" style="margin-top: 40px;">Produits à tester</h3>
+            <h3 class="section-title" style="margin-top: 40px;" data-i18n="form_title2">Produits à tester</h3>
             
             <div id="produits-container">
                 <div class="product-row">
                     <div class="input-wrapper">
-                        <input type="text" class="ean" placeholder="Code EAN (13 chiffres)" required>
+                        <input type="text" class="ean" placeholder="Code EAN (13 chiffres)" data-i18n-placeholder="placeholder_ean" required>
                     </div>
                     <div class="input-qty">
-                        <input type="number" class="qty" placeholder="Quantité" required min="1">
+                        <input type="number" class="qty" placeholder="Quantité" data-i18n-placeholder="placeholder_qty" required min="1">
                     </div>
                     <div style="width: 40px;"></div>
                 </div>
             </div>
             
-            <button type="button" class="btn-add" onclick="ajouterLigne()">+ Ajouter un produit</button>
+            <button type="button" class="btn-add" onclick="ajouterLigne()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span data-i18n="btn_add">Ajouter un autre produit</span>
+            </button>
 
-            <button type="button" class="btn-submit" id="btn-submit" onclick="envoyerDonnees()">Envoyer demande de club testeur</button>
+            <!-- NOUVELLE SECTION: ET ENSUITE ? -->
+            <div class="next-steps-card">
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    <span data-i18n="next_title">Et ensuite ? Une solution 100 % clé en main !</span>
+                </h3>
+                <ul>
+                    <li data-i18n="next_step1"><strong>Immédiatement :</strong> Vous recevrez par email votre fichier de cadrage pré-rempli (que vous pourrez encore ajuster si besoin) contenant l'adresse d'expédition de vos échantillons.</li>
+                    <li data-i18n="next_step2"><strong>On s'occupe de tout le reste :</strong> Une fois vos échantillons reçus, notre laboratoire prend le relais à 100 % (recrutement, expéditions au domicile des testeurs, suivi jusqu’à la publication des avis).</li>
+                </ul>
+            </div>
+
+            <!-- BOUTON D'ENVOI -->
+            <button type="button" class="btn-submit" id="btn-submit" onclick="envoyerDonnees()">
+                <span data-i18n="btn_submit">Envoyer la demande</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
             
+            <!-- MESSAGE DE SUCCÈS -->
             <div id="message-succes">
                 <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                     <polyline points="22 4 12 14.01 9 11.01"></polyline>
                 </svg>
-                <div class="success-title">Demande envoyée avec succès !</div>
-                <div class="success-text">Votre liste de produits a bien été transmise à l'équipe du Club Testeur.</div>
+                <div class="success-title" data-i18n="success_title">Demande envoyée avec succès !</div>
+                <div class="success-text" data-i18n="success_text">Surveillez votre boîte mail, vous allez recevoir votre fichier de cadrage dans quelques instants.</div>
                 
-                <!-- Nouveau bouton pour faire une autre demande -->
-                <button type="button" class="btn-reset" onclick="reinitialiserFormulaire()">Envoyer une autre demande</button>
+                <button type="button" class="btn-reset" onclick="reinitialiserFormulaire()" data-i18n="btn_reset">Faire une nouvelle demande</button>
             </div>
         </div>
 
@@ -320,19 +528,117 @@
 
     <script>
         const WEBHOOK_URL = "https://hook.eu1.make.com/ompmicexyvbw6k2cdunw0gydays2g54u";
+        let currentLang = 'fr';
 
+        // --- DICTIONNAIRE DE TRADUCTION ---
+        const translations = {
+            fr: {
+                title: "Sécurisez la satisfaction client et boostez vos ventes avec le Club des Testeurs !",
+                subtitle: "Le Club des Testeurs accélère la génération d'avis riches (verbatims, photos, vidéos) pour maximiser la visibilité sur les moteurs de recherche (SEO/GEO) et déclencher la mise au panier.",
+                impact_title: "📈 Impact sur vos ventes",
+                impact_text: "Atteindre le cap des 10 avis fait bondir le taux de conversion (ajout au panier) de <span class='highlight'>+39 % en moyenne</span>. <span class='highlight'>+25%</span> à partir de 5 avis (pour un produit ayant une note moyenne ≥4★).",
+                prereq_title: "⚠️ Prérequis",
+                prereq_text: "La page web de votre produit doit déjà être active au commerce (visible par les clients) et afficher moins de 10 avis.",
+                advice_title: "💡 Notre conseil",
+                advice_text: "Prévoyez <strong>10 échantillons par référence</strong> pour sécuriser le palier de conversion maximal (6 échantillons minimum pour s’assurer d’atteindre le 1er palier à +25%).",
+                stats_text: "Grâce à notre communauté de plus de <strong>17 000 habitants testeurs</strong>, le premier avis est publié, en moyenne, <strong>45 jours</strong> après la réception de vos échantillons chez FANDI. Le taux de réponse est de <strong>93%</strong> (avis/échantillons).",
+                form_title1: "Vos informations",
+                label_email: "Votre adresse E-mail",
+                placeholder_email: "exemple@email.com",
+                label_name: "Nom du demandeur",
+                placeholder_name: "Saisissez votre nom et prénom",
+                label_date: "Date de disponibilité des échantillons",
+                form_title2: "Produits à tester",
+                placeholder_ean: "Code EAN (13 chiffres)",
+                placeholder_qty: "Quantité",
+                btn_add: "Ajouter un autre produit",
+                next_title: "Et ensuite ? Une solution 100 % clé en main !",
+                next_step1: "<strong>Immédiatement :</strong> Vous recevrez par email votre fichier de cadrage pré-rempli (que vous pourrez encore ajuster si besoin) contenant l'adresse d'expédition de vos échantillons.",
+                next_step2: "<strong>On s'occupe de tout le reste :</strong> Une fois vos échantillons reçus, notre laboratoire prend le relais à 100 % (recrutement, expéditions au domicile des testeurs, suivi jusqu’à la publication des avis).",
+                btn_submit: "Envoyer la demande",
+                success_title: "Demande envoyée avec succès !",
+                success_text: "Surveillez votre boîte mail, vous allez recevoir votre fichier de cadrage dans quelques instants.",
+                btn_reset: "Faire une nouvelle demande",
+                alert_fill: "Merci de remplir votre email, votre nom et la date de disponibilité.",
+                alert_ean: "Merci d'ajouter au moins un code EAN et une quantité.",
+                alert_error: "Erreur lors de l'envoi de la demande. Veuillez réessayer.",
+                sending: "Envoi en cours..."
+            },
+            en: {
+                title: "Secure customer satisfaction and boost your sales with the Testers Club!",
+                subtitle: "The Testers Club accelerates the generation of rich reviews (verbatims, photos, videos) to maximize search engine visibility (SEO/GEO) and trigger add-to-cart actions.",
+                impact_title: "📈 Sales Impact",
+                impact_text: "Reaching the 10-review milestone boosts the add-to-cart conversion rate by <span class='highlight'>+39% on average</span>. <span class='highlight'>+25%</span> starting from 5 reviews (for a product with an average rating ≥4★).",
+                prereq_title: "⚠️ Prerequisites",
+                prereq_text: "Your product webpage must already be active for commerce (visible to customers) and display fewer than 10 reviews.",
+                advice_title: "💡 Our advice",
+                advice_text: "Plan for <strong>10 samples per reference</strong> to secure the maximum conversion tier (6 samples minimum to ensure reaching the first tier at +25%).",
+                stats_text: "Thanks to our community of over <strong>17,000 tester inhabitants</strong>, the first review is published, on average, <strong>45 days</strong> after FANDI receives your samples. The response rate is <strong>93%</strong> (reviews/samples).",
+                form_title1: "Your Information",
+                label_email: "Your E-mail Address",
+                placeholder_email: "example@email.com",
+                label_name: "Requester Name",
+                placeholder_name: "Enter your full name",
+                label_date: "Sample Availability Date",
+                form_title2: "Products to test",
+                placeholder_ean: "EAN Code (13 digits)",
+                placeholder_qty: "Quantity",
+                btn_add: "Add another product",
+                next_title: "What's next? A 100% turnkey solution!",
+                next_step1: "<strong>Immediately:</strong> You will receive your pre-filled scoping file by email (which you can still adjust if needed) containing the shipping address for your samples.",
+                next_step2: "<strong>We take care of the rest:</strong> Once your samples are received, our laboratory takes over 100% (recruitment, shipping to testers' homes, tracking until reviews are published).",
+                btn_submit: "Submit request",
+                success_title: "Request sent successfully!",
+                success_text: "Check your inbox, you will receive your scoping file in a few moments.",
+                btn_reset: "Make a new request",
+                alert_fill: "Please fill in your email, your name, and the availability date.",
+                alert_ean: "Please add at least one EAN code and a quantity.",
+                alert_error: "Error sending request. Please try again.",
+                sending: "Sending..."
+            }
+        };
+
+        // --- GESTION DU MULTILINGUISME ---
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // Mise à jour des boutons
+            document.getElementById('btn-fr').classList.remove('active');
+            document.getElementById('btn-en').classList.remove('active');
+            document.getElementById('btn-' + lang).classList.add('active');
+
+            // Traduction des textes classiques
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Traduction des placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    element.setAttribute('placeholder', translations[lang][key]);
+                }
+            });
+        }
+
+        // --- LOGIQUE DU FORMULAIRE ---
         function ajouterLigne() {
             const container = document.getElementById('produits-container');
             const div = document.createElement('div');
             div.className = 'product-row';
             div.innerHTML = `
                 <div class="input-wrapper">
-                    <input type="text" class="ean" placeholder="Code EAN (13 chiffres)" required>
+                    <input type="text" class="ean" placeholder="${translations[currentLang].placeholder_ean}" data-i18n-placeholder="placeholder_ean" required>
                 </div>
                 <div class="input-qty">
-                    <input type="number" class="qty" placeholder="Quantité" required min="1">
+                    <input type="number" class="qty" placeholder="${translations[currentLang].placeholder_qty}" data-i18n-placeholder="placeholder_qty" required min="1">
                 </div>
-                <button type="button" class="remove-btn" onclick="this.parentElement.remove()" title="Supprimer la ligne">✕</button>
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()" title="Supprimer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             `;
             container.appendChild(div);
         }
@@ -343,7 +649,7 @@
             const dateDispoRaw = document.getElementById('date_dispo').value;
             
             if(!email || !demandeur || !dateDispoRaw) {
-                alert("Merci de remplir votre email, votre nom et la date de disponibilité.");
+                alert(translations[currentLang].alert_fill);
                 return;
             }
 
@@ -361,10 +667,11 @@
             }
 
             if(listeCombinee.length === 0) {
-                alert("Merci d'ajouter au moins un code EAN et une quantité.");
+                alert(translations[currentLang].alert_ean);
                 return;
             }
 
+            // EXACTEMENT LE MÊME PAYLOAD QU'AVANT POUR NE PAS CASSER MAKE.COM
             const payload = {
                 email: email,
                 demandeur: demandeur,
@@ -373,7 +680,10 @@
             };
 
             const btnSubmit = document.getElementById('btn-submit');
-            btnSubmit.innerText = "Envoi en cours...";
+            const originalBtnContent = btnSubmit.innerHTML;
+            
+            // Mise à jour visuelle du bouton pendant l'envoi
+            btnSubmit.innerHTML = `<span>${translations[currentLang].sending}</span>`;
             btnSubmit.style.opacity = "0.7";
             btnSubmit.style.pointerEvents = "none";
 
@@ -384,40 +694,41 @@
             }).then(response => {
                 btnSubmit.style.display = "none";
                 document.getElementById('message-succes').style.display = 'block';
+                btnSubmit.setAttribute('data-original-html', originalBtnContent);
             }).catch(error => {
-                alert("Erreur lors de l'envoi de la demande. Veuillez réessayer.");
-                btnSubmit.innerText = "Envoyer demande de club testeur";
+                alert(translations[currentLang].alert_error);
+                btnSubmit.innerHTML = originalBtnContent;
                 btnSubmit.style.opacity = "1";
                 btnSubmit.style.pointerEvents = "auto";
             });
         }
 
-        // Nouvelle fonction pour réinitialiser le formulaire intelligemment
         function reinitialiserFormulaire() {
-            // On vide la date
             document.getElementById('date_dispo').value = '';
             
-            // On réinitialise la zone des EANs avec une seule ligne vide
             const container = document.getElementById('produits-container');
             container.innerHTML = `
                 <div class="product-row">
                     <div class="input-wrapper">
-                        <input type="text" class="ean" placeholder="Code EAN (13 chiffres)" required>
+                        <input type="text" class="ean" placeholder="${translations[currentLang].placeholder_ean}" data-i18n-placeholder="placeholder_ean" required>
                     </div>
                     <div class="input-qty">
-                        <input type="number" class="qty" placeholder="Quantité" required min="1">
+                        <input type="number" class="qty" placeholder="${translations[currentLang].placeholder_qty}" data-i18n-placeholder="placeholder_qty" required min="1">
                     </div>
                     <div style="width: 40px;"></div>
                 </div>
             `;
 
-            // On cache le message de succès
             document.getElementById('message-succes').style.display = 'none';
             
-            // On réaffiche le bouton d'envoi principal
             const btnSubmit = document.getElementById('btn-submit');
-            btnSubmit.style.display = "block";
-            btnSubmit.innerText = "Envoyer demande de club testeur";
+            btnSubmit.style.display = "flex";
+            
+            // On s'assure que le bouton reprend la bonne langue après réinitialisation
+            btnSubmit.innerHTML = `
+                <span data-i18n="btn_submit">${translations[currentLang].btn_submit}</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            `;
             btnSubmit.style.opacity = "1";
             btnSubmit.style.pointerEvents = "auto";
         }
