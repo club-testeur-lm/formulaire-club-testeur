@@ -572,6 +572,8 @@
                 btn_reset: "Faire une nouvelle demande",
                 alert_fill: "Merci de remplir votre email, votre nom et la date de disponibilité.",
                 alert_ean: "Merci d'ajouter au moins un code EAN et une quantité.",
+                alert_ean_invalid: "Le code EAN doit contenir exactement 13 chiffres numériques.",
+                alert_qty_invalid: "Veuillez renseigner une quantité valide (supérieure à 0) pour chaque produit.",
                 alert_error: "Erreur lors de l'envoi de la demande. Veuillez réessayer.",
                 sending: "Envoi en cours..."
             },
@@ -604,6 +606,8 @@
                 btn_reset: "Make a new request",
                 alert_fill: "Please fill in your email, your name, and the availability date.",
                 alert_ean: "Please add at least one EAN code and a quantity.",
+                alert_ean_invalid: "The EAN code must contain exactly 13 numeric digits.",
+                alert_qty_invalid: "Please enter a valid quantity (greater than 0) for each product.",
                 alert_error: "Error sending request. Please try again.",
                 sending: "Sending..."
             }
@@ -655,10 +659,11 @@
         }
 
         function envoyerDonnees() {
-            const email = document.getElementById('email').value;
-            const demandeur = document.getElementById('demandeur').value;
+            const email = document.getElementById('email').value.trim();
+            const demandeur = document.getElementById('demandeur').value.trim();
             const dateDispoRaw = document.getElementById('date_dispo').value;
             
+            // 1. Vérification des champs généraux
             if(!email || !demandeur || !dateDispoRaw) {
                 alert(translations[currentLang].alert_fill);
                 return;
@@ -671,14 +676,34 @@
             const qtys = document.getElementsByClassName('qty');
             
             let listeCombinee = [];
+            let eanInvalideTrouve = false;
+
             for(let i = 0; i < eans.length; i++) {
-                if(eans[i].value !== "" && qtys[i].value !== "") {
-                    listeCombinee.push(eans[i].value.trim() + ":" + qtys[i].value.trim());
+                const eanVal = eans[i].value.trim();
+                const qtyVal = qtys[i].value.trim();
+
+                if(eanVal !== "" || qtyVal !== "") {
+                    // Vérification stricte : exactement 13 chiffres numériques
+                    const regexEan13 = /^\d{13}$/;
+                    if(!regexEan13.test(eanVal)) {
+                        eanInvalideTrouve = true;
+                        break;
+                    }
+                    if(qtyVal === "" || parseInt(qtyVal) <= 0) {
+                        alert(translations[currentLang].alert_qty_invalid);
+                        return;
+                    }
+                    listeCombinee.push(eanVal + ":" + qtyVal);
                 }
             }
 
             if(listeCombinee.length === 0) {
                 alert(translations[currentLang].alert_ean);
+                return;
+            }
+
+            if(eanInvalideTrouve) {
+                alert(translations[currentLang].alert_ean_invalid);
                 return;
             }
 
